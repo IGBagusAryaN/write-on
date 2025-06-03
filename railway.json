@@ -1,0 +1,11 @@
+{
+  "build": {
+    "env": {
+      "APP_ENV": "production",
+      "APP_DEBUG": "false"
+    }
+  },
+  "deploy": {
+    "startCommand": "php artisan serve --host=0.0.0.0 --port=$PORT --public=public"
+  }
+}
