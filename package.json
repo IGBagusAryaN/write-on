@@ -3,6 +3,7 @@
     "type": "module",
     "scripts": {
         "build": "vite build",
+        "buildvite": "npm run build && php artisan config:cache",
         "dev": "vite"
     },
     "devDependencies": {
