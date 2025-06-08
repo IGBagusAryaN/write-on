@@ -34,10 +34,6 @@
                                 @enderror
                             </div>
                             <div>
-                                @isset($data->thumbnail)
-                                    <img src="{{ asset(getenv('CUSTOM_THUMBNAILS_LOCATION') . '/' . $data->thumbnail) }}"
-                                        class="rounded-md border-gray-300 max-w-40 py-2">
-                                @endisset
 
                                 <x-input-label for="file_input" value="Thumbnail" />
                                 <input type="file" class="w-full border border-gray-300 rounded-md"

@@ -36,7 +36,7 @@
                             </div>
                             <div>
                                 @isset($data->thumbnail)
-                                    <img src="{{ asset(getenv('CUSTOM_THUMBNAILS_LOCATION') . '/' . $data->thumbnail) }}"
+                                    <img src="{{ $data->thumbnail }}"
                                         class="rounded-md border-gray-300 max-w-40 py-2">
                                 @endisset
 
