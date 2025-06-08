@@ -43,7 +43,7 @@ class BlogController extends Controller
 
     public function store(Request $request)
     {
-        dd(config('cloudinary'));
+        // dd(config('cloudinary'));
 
         $request->validate([
             'title' => 'required',
