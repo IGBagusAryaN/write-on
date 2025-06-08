@@ -65,34 +65,29 @@ class BlogController extends Controller
         //     ]);
         //     $thumbnailUrl = $uploadResult['secure_url'];
         // }
-      $uploadedFile = $request->file('image'); // pastikan field-nya 'image'
 
-        if (!$uploadedFile || !$uploadedFile->isValid()) {
-            return response()->json(['error' => 'File tidak valid'], 400);
-        }
+         $uploadedFile = $request->file('thumbnail'); // pastikan input form = 'image'
 
-        // Inisialisasi Cloudinary manual (biar ga error di Vercel)
-        $cloudinary = new Cloudinary([
-            'cloud' => [
-                'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
-                'api_key'    => env('CLOUDINARY_API_KEY'),
-                'api_secret' => env('CLOUDINARY_API_SECRET'),
-            ]
-        ]);
+    if (!$uploadedFile || !$uploadedFile->isValid()) {
+        return response()->json(['error' => 'File tidak valid'], 400);
+    }
 
-        // Upload file ke Cloudinary
-        $uploadResult = $cloudinary->uploadApi()->upload($uploadedFile->getRealPath(), [
-            'folder' => 'thumbnails',
-        ]);
+    $cloudinary = new Cloudinary([
+        'cloud' => [
+            'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
+            'api_key'    => env('CLOUDINARY_API_KEY'),
+            'api_secret' => env('CLOUDINARY_API_SECRET'),
+        ],
+    ]);
 
-        // Ambil URL hasil upload
-        $url = $uploadResult['secure_url'];
+    $result = $cloudinary->uploadApi()->upload(
+        $uploadedFile->getRealPath(),
+        ['folder' => 'thumbnails']
+    );
 
-        return response()->json([
-            'message' => 'Upload berhasil',
-            'url' => $url,
-        ]);
-
+    return response()->json([
+        'url' => $result['secure_url'],
+    ]);
 
 
 
