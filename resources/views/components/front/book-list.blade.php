@@ -1,7 +1,8 @@
 @props(['title', 'desc', 'author', 'link' ,'thumbnails'])    
     
     <div class="border flex p-2 gap-2 h-full w-full">
-        <img src="{{ asset(getenv('CUSTOM_THUMBNAILS_LOCATION').'/'.$thumbnails) }}" alt=""
+        {{-- <img src="{{ asset(getenv('CUSTOM_THUMBNAILS_LOCATION').'/'.$thumbnails) }}" alt="" --}}
+        <img src="{{ $thumbnails }}" alt=""
             width="120" height="120">
         <div class="flex flex-col justify-between w-full">
             <div>
