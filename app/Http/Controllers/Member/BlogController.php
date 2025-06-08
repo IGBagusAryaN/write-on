@@ -65,19 +65,26 @@ class BlogController extends Controller
         //     ]);
         //     $thumbnailUrl = $uploadResult['secure_url'];
         // }
+        $thumbnailUrl = null;
+
         if ($request->hasFile('thumbnail')) {
             $uploadedFile = $request->file('thumbnail');
+
+            if (!$uploadedFile->isValid()) {
+                return response()->json(['error' => 'File tidak valid'], 400);
+            }
+
             $uploadResult = Cloudinary::uploadApi()->upload($uploadedFile->getRealPath(), [
                 'folder' => 'thumbnails'
             ]);
 
             if (!isset($uploadResult['secure_url'])) {
-                Log::error('Cloudinary upload failed', $uploadResult);
-                return response()->json(['message' => 'Upload thumbnail gagal'], 500);
+                return response()->json(['error' => 'Gagal upload ke Cloudinary', 'debug' => $uploadResult], 500);
             }
 
             $thumbnailUrl = $uploadResult['secure_url'];
         }
+
 
 
 
