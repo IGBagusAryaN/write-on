@@ -43,69 +43,59 @@ class BlogController extends Controller
      */
 
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'title' => 'required',
-            'content' => 'required',
-            'thumbnail' => 'image|mimes:jpeg,jpg,png|max:10240'
-        ], [
-            'title.required' => 'Judul wajib diisi',
-            'content.required' => 'Konten wajib diisi',
-            'thumbnail.image' => 'Hanya gambar yang diperbolehkan',
-            'thumbnail.mimes' => 'Ekstensi yang diperbolehkan hanya JPEG, JPG, dan PNG',
-            'thumbnail.max' => 'Ukuran maksimum untuk thumbnail adalah 10mb',
+  public function store(Request $request)
+{
+    $request->validate([
+        'title' => 'required',
+        'content' => 'required',
+        'thumbnail' => 'image|mimes:jpeg,jpg,png|max:10240'
+    ], [
+        'title.required' => 'Judul wajib diisi',
+        'content.required' => 'Konten wajib diisi',
+        'thumbnail.image' => 'Hanya gambar yang diperbolehkan',
+        'thumbnail.mimes' => 'Ekstensi yang diperbolehkan hanya JPEG, JPG, dan PNG',
+        'thumbnail.max' => 'Ukuran maksimum untuk thumbnail adalah 10mb',
+    ]);
+
+    $thumbnailUrl = null;
+
+    if ($request->hasFile('thumbnail')) {
+        $uploadedFile = $request->file('thumbnail');
+
+        if (!$uploadedFile->isValid()) {
+            return redirect()->back()->withErrors(['thumbnail' => 'File tidak valid'])->withInput();
+        }
+
+        $cloudinary = new Cloudinary([
+            'cloud' => [
+                'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
+                'api_key'    => env('CLOUDINARY_API_KEY'),
+                'api_secret' => env('CLOUDINARY_API_SECRET'),
+            ],
         ]);
 
-        $thumbnailUrl = null;
-        // if ($request->hasFile('thumbnail')) {
-        //     $uploadedFile = $request->file('thumbnail');
-        //     $uploadResult = Cloudinary::uploadApi()->upload($uploadedFile->getRealPath(), [
-        //         'folder' => 'thumbnails'
-        //     ]);
-        //     $thumbnailUrl = $uploadResult['secure_url'];
-        // }
+        $result = $cloudinary->uploadApi()->upload(
+            $uploadedFile->getRealPath(),
+            ['folder' => 'thumbnails']
+        );
 
-         $uploadedFile = $request->file('thumbnail'); // pastikan input form = 'image'
-
-    if (!$uploadedFile || !$uploadedFile->isValid()) {
-        return response()->json(['error' => 'File tidak valid'], 400);
+        $thumbnailUrl = $result['secure_url'];
     }
 
-    $cloudinary = new Cloudinary([
-        'cloud' => [
-            'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
-            'api_key'    => env('CLOUDINARY_API_KEY'),
-            'api_secret' => env('CLOUDINARY_API_SECRET'),
-        ],
-    ]);
+    $data = [
+        'title' => $request->title,
+        'description' => $request->description,
+        'content' => $request->content,
+        'status' => $request->status,
+        'thumbnail' => $thumbnailUrl,
+        'slug' => $this->generateSlug($request->title),
+        'user_id' => Auth::id()
+    ];
 
-    $result = $cloudinary->uploadApi()->upload(
-        $uploadedFile->getRealPath(),
-        ['folder' => 'thumbnails']
-    );
+    Post::create($data);
 
-    return response()->json([
-        'url' => $result['secure_url'],
-    ]);
-
-
-
-        $data = [
-            'title' => $request->title,
-            'description' => $request->description,
-            'content' => $request->content,
-            'status' => $request->status,
-            'thumbnail' => $thumbnailUrl,
-            'slug' => $this->generateSlug($request->title),
-            'user_id' => Auth::id()
-        ];
-
-        Post::create($data);
-
-        return redirect()->route('member.blogs.index')->with('success', 'Data berhasil di-tambahkan');
-    }
-
+    return redirect()->route('member.blogs.index')->with('success', 'Data berhasil ditambahkan');
+}
 
     /**
      * Display the specified resource.
