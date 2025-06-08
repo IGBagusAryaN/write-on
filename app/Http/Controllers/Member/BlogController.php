@@ -19,8 +19,8 @@ class BlogController extends Controller
     {
         $user = Auth::user();
         $search = $request->search;
-        $data = Post::where('user_id', $user->id)->where(function ($query) use ($search) {
-            if ($search) {
+        $data = Post::where('user_id', $user->id)->where(function($query) use ($search){
+            if($search) {
                 $query->where('title', 'like', "%{$search}%");
                 // ->orWhere('content', 'like', "%{$search}%");
             }
@@ -41,50 +41,44 @@ class BlogController extends Controller
      * Store a newly created resource in storage.
      */
 
-    public function store(Request $request)
-    {
-        // dd(config('cloudinary'));
 
-        $request->validate([
-            'title' => 'required',
-            'content' => 'required',
-            'thumbnail' => 'image|mimes:jpeg,jpg,png|max:10240'
-        ], [
-            'title.required' => 'Judul wajib diisi',
-            'content.required' => 'Konten wajib diisi',
-            'thumbnail.image' => 'Hanya gambar yang diperbolehkan',
-            'thumbnail.mimes' => 'Ekstensi yang diperbolehkan hanya JPEG, JPG, dan PNG',
-            'thumbnail.max' => 'Ukuran maksimum untuk thumbnail adalah 10mb',
+public function store(Request $request)
+{
+    $request->validate([
+        'title' => 'required',
+        'content' => 'required',
+        'thumbnail' => 'image|mimes:jpeg,jpg,png|max:10240'
+    ], [
+        'title.required' => 'Judul wajib diisi',
+        'content.required' => 'Konten wajib diisi',
+        'thumbnail.image' => 'Hanya gambar yang diperbolehkan',
+        'thumbnail.mimes' => 'Ekstensi yang diperbolehkan hanya JPEG, JPG, dan PNG',
+        'thumbnail.max' => 'Ukuran maksimum untuk thumbnail adalah 10mb',
+    ]);
+
+    $thumbnailUrl = null;
+    if ($request->hasFile('thumbnail')) {
+        $uploadedFile = $request->file('thumbnail');
+        $uploadResult = Cloudinary::uploadApi()->upload($uploadedFile->getRealPath(), [
+            'folder' => 'thumbnails'
         ]);
-
-        $thumbnailUrl = null;
-
-        if ($request->hasFile('thumbnail')) {
-            $uploadedFile = $request->file('thumbnail');
-            $uploadResult = Cloudinary::upload($uploadedFile->getRealPath(), [
-                'folder' => 'thumbnails',
-                'resource_type' => 'image',
-            ]);
-
-            $thumbnailUrl = $uploadResult->getSecurePath();
-            dd($uploadResult);
-        }
-
-
-        $data = [
-            'title' => $request->title,
-            'description' => $request->description,
-            'content' => $request->content,
-            'status' => $request->status,
-            'thumbnail' => $thumbnailUrl,
-            'slug' => $this->generateSlug($request->title),
-            'user_id' => Auth::id()
-        ];
-
-        Post::create($data);
-
-        return redirect()->route('member.blogs.index')->with('success', 'Data berhasil di-tambahkan');
+        $thumbnailUrl = $uploadResult['secure_url'];
     }
+
+    $data = [
+        'title' => $request->title,
+        'description' => $request->description,
+        'content' => $request->content,
+        'status' => $request->status,
+        'thumbnail' => $thumbnailUrl,
+        'slug' => $this->generateSlug($request->title),
+        'user_id' => Auth::id()
+    ];
+
+    Post::create($data);
+
+    return redirect()->route('member.blogs.index')->with('success', 'Data berhasil di-tambahkan');
+}
 
 
     /**
@@ -152,7 +146,7 @@ class BlogController extends Controller
 
     public function destroy(Post $post)
     {
-        Gate::authorize('delete', $post);
+            Gate::authorize('delete', $post);
         if (isset($post->thumbnail) && file_exists(public_path(getenv('CUSTOM_THUMBNAILS_LOCATION')) . "/" . $post->thumbnail)) {
             unlink(public_path(getenv('CUSTOM_THUMBNAILS_LOCATION')) . "/" . $post->thumbnail);
         }
