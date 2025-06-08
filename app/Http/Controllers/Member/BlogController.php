@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Member;
 
 use App\Http\Controllers\Controller;
 use App\Models\Post;
-use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use Cloudinary\Cloudinary;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -65,25 +65,33 @@ class BlogController extends Controller
         //     ]);
         //     $thumbnailUrl = $uploadResult['secure_url'];
         // }
-        $thumbnailUrl = null;
+      $uploadedFile = $request->file('image'); // pastikan field-nya 'image'
 
-        if ($request->hasFile('thumbnail')) {
-            $uploadedFile = $request->file('thumbnail');
-
-            if (!$uploadedFile->isValid()) {
-                return response()->json(['error' => 'File tidak valid'], 400);
-            }
-
-            $uploadResult = Cloudinary::uploadApi()->upload($uploadedFile->getRealPath(), [
-                'folder' => 'thumbnails'
-            ]);
-
-            if (!isset($uploadResult['secure_url'])) {
-                return response()->json(['error' => 'Gagal upload ke Cloudinary', 'debug' => $uploadResult], 500);
-            }
-
-            $thumbnailUrl = $uploadResult['secure_url'];
+        if (!$uploadedFile || !$uploadedFile->isValid()) {
+            return response()->json(['error' => 'File tidak valid'], 400);
         }
+
+        // Inisialisasi Cloudinary manual (biar ga error di Vercel)
+        $cloudinary = new Cloudinary([
+            'cloud' => [
+                'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
+                'api_key'    => env('CLOUDINARY_API_KEY'),
+                'api_secret' => env('CLOUDINARY_API_SECRET'),
+            ]
+        ]);
+
+        // Upload file ke Cloudinary
+        $uploadResult = $cloudinary->uploadApi()->upload($uploadedFile->getRealPath(), [
+            'folder' => 'thumbnails',
+        ]);
+
+        // Ambil URL hasil upload
+        $url = $uploadResult['secure_url'];
+
+        return response()->json([
+            'message' => 'Upload berhasil',
+            'url' => $url,
+        ]);
 
 
 
