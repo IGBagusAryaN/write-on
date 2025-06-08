@@ -2,9 +2,9 @@
   <x-front.layout-page>
     <x-slot name="pageTitle">{{ $data->title }}</x-slot>
         <div class="max-w-5xl mx-auto mt-5 px-4 sm:px-6 lg:px-8">
-          <div class="grid grid-cols-[0.9fr_3fr] p-2 gap-3 h-full">
-                <div class="text-[16px] text-gray-700 mt-3">
-                    <img src="{{ $data->thumbnail }}" alt="" width="200" height="200">
+          <div class="grid md:grid-cols-[0.9fr_3fr] p-2 gap-3 h-full">
+                <div class="text-[16px]   text-gray-700 md:mt-3">
+                    <img src="{{ $data->thumbnail }}" alt="" class=" w-full h-[540px] md:w-[250px] md:h-[300px]  " width="200" height="200">
                     <div class="mt-2">Penulis : {{ $data->user->name }}</div>
                     <div>Terbit : {{ $data->created_at->isoFormat('dddd, D MMMM Y')  }}</div>
                 </div>
