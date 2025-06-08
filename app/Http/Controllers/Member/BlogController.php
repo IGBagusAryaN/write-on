@@ -19,8 +19,8 @@ class BlogController extends Controller
     {
         $user = Auth::user();
         $search = $request->search;
-        $data = Post::where('user_id', $user->id)->where(function($query) use ($search){
-            if($search) {
+        $data = Post::where('user_id', $user->id)->where(function ($query) use ($search) {
+            if ($search) {
                 $query->where('title', 'like', "%{$search}%");
                 // ->orWhere('content', 'like', "%{$search}%");
             }
@@ -41,54 +41,57 @@ class BlogController extends Controller
      * Store a newly created resource in storage.
      */
 
-public function store(Request $request)
-{
-    logger('cloudinary_env', [
-    'cloud_name' => config('cloudinary.cloud.cloud_name'),
-    'api_key' => config('cloudinary.cloud.api_key'),
-    'api_secret' => config('cloudinary.cloud.api_secret'),
-]);
-
-    $request->validate([
-        'title' => 'required',
-        'content' => 'required',
-        'thumbnail' => 'image|mimes:jpeg,jpg,png|max:10240'
-    ], [
-        'title.required' => 'Judul wajib diisi',
-        'content.required' => 'Konten wajib diisi',
-        'thumbnail.image' => 'Hanya gambar yang diperbolehkan',
-        'thumbnail.mimes' => 'Ekstensi yang diperbolehkan hanya JPEG, JPG, dan PNG',
-        'thumbnail.max' => 'Ukuran maksimum untuk thumbnail adalah 10mb',
-    ]);
-
-    $thumbnailUrl = null;
-
-    if ($request->hasFile('thumbnail')) {
-    $uploadedFile = $request->file('thumbnail');
-   $uploadResult = Cloudinary::uploadApi()->upload($uploadedFile->getRealPath(), [
-    'folder' => 'thumbnails',
-    'filename' => $uploadedFile->getClientOriginalName(),
-    'resource_type' => 'image'
-]);
-
-    $thumbnailUrl = $uploadResult['secure_url']; // gunakan array access
-}
+    public function store(Request $request)
+    {
+        dd(config('cloudinary'));
 
 
-    $data = [
-        'title' => $request->title,
-        'description' => $request->description,
-        'content' => $request->content,
-        'status' => $request->status,
-        'thumbnail' => $thumbnailUrl,
-        'slug' => $this->generateSlug($request->title),
-        'user_id' => Auth::id()
-    ];
+        logger('cloudinary_env', [
+            'cloud_name' => config('cloudinary.cloud.cloud_name'),
+            'api_key' => config('cloudinary.cloud.api_key'),
+            'api_secret' => config('cloudinary.cloud.api_secret'),
+        ]);
 
-    Post::create($data);
+        $request->validate([
+            'title' => 'required',
+            'content' => 'required',
+            'thumbnail' => 'image|mimes:jpeg,jpg,png|max:10240'
+        ], [
+            'title.required' => 'Judul wajib diisi',
+            'content.required' => 'Konten wajib diisi',
+            'thumbnail.image' => 'Hanya gambar yang diperbolehkan',
+            'thumbnail.mimes' => 'Ekstensi yang diperbolehkan hanya JPEG, JPG, dan PNG',
+            'thumbnail.max' => 'Ukuran maksimum untuk thumbnail adalah 10mb',
+        ]);
 
-    return redirect()->route('member.blogs.index')->with('success', 'Data berhasil di-tambahkan');
-}
+        $thumbnailUrl = null;
+
+        if ($request->hasFile('thumbnail')) {
+            $uploadedFile = $request->file('thumbnail');
+            $uploadResult = Cloudinary::uploadApi()->upload($uploadedFile->getRealPath(), [
+                'folder' => 'thumbnails',
+                'filename' => $uploadedFile->getClientOriginalName(),
+                'resource_type' => 'image'
+            ]);
+
+            $thumbnailUrl = $uploadResult['secure_url']; // gunakan array access
+        }
+
+
+        $data = [
+            'title' => $request->title,
+            'description' => $request->description,
+            'content' => $request->content,
+            'status' => $request->status,
+            'thumbnail' => $thumbnailUrl,
+            'slug' => $this->generateSlug($request->title),
+            'user_id' => Auth::id()
+        ];
+
+        Post::create($data);
+
+        return redirect()->route('member.blogs.index')->with('success', 'Data berhasil di-tambahkan');
+    }
 
 
     /**
@@ -156,7 +159,7 @@ public function store(Request $request)
 
     public function destroy(Post $post)
     {
-            Gate::authorize('delete', $post);
+        Gate::authorize('delete', $post);
         if (isset($post->thumbnail) && file_exists(public_path(getenv('CUSTOM_THUMBNAILS_LOCATION')) . "/" . $post->thumbnail)) {
             unlink(public_path(getenv('CUSTOM_THUMBNAILS_LOCATION')) . "/" . $post->thumbnail);
         }
