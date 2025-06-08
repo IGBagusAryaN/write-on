@@ -119,42 +119,61 @@ class BlogController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Post $post)
-    {
-        $request->validate([
-            'title' => 'required',
-            'content' => 'required',
-            'thumbnail' => 'image|mimes:jpeg,jpg,png|max:10240'
-        ], [
-            'title.required' => 'Judul wajib diisi',
-            'content.required' => 'Konten wajib diisi',
-            'thumbnail.image' => 'Hanya gambar yang diperbolehkan',
-            'thumbnail.mimes' => 'Ekstensi yang diperbolehkan hanya JPEG, JPG, dan PNG',
-            'thumbnail.max' => 'Ukuran maksimum untuk thumbnail adalah 10mb',
-        ]);
+  public function update(Request $request, Post $post)
+{
+    $request->validate([
+        'title' => 'required',
+        'content' => 'required',
+        'thumbnail' => 'image|mimes:jpeg,jpg,png|max:10240'
+    ], [
+        'title.required' => 'Judul wajib diisi',
+        'content.required' => 'Konten wajib diisi',
+        'thumbnail.image' => 'Hanya gambar yang diperbolehkan',
+        'thumbnail.mimes' => 'Ekstensi yang diperbolehkan hanya JPEG, JPG, dan PNG',
+        'thumbnail.max' => 'Ukuran maksimum untuk thumbnail adalah 10mb',
+    ]);
 
-        if ($request->hasFile('thumbnail')) {
-            if (isset($post->thumbnail) && file_exists(public_path(getenv('CUSTOM_THUMBNAILS_LOCATION')) . "/" . $post->thumbnail)) {
-                unlink(public_path(getenv('CUSTOM_THUMBNAILS_LOCATION')) . "/" . $post->thumbnail);
-            }
-            $image = $request->file('thumbnail');
-            $image_name = time() . "_" . $image->getClientOriginalName();
-            $destination_path = public_path(getenv('CUSTOM_THUMBNAILS_LOCATION'));
-            $image->move($destination_path, $image_name);
+    $thumbnailUrl = $post->thumbnail; // default gunakan yang lama
+
+    if ($request->hasFile('thumbnail')) {
+        $uploadedFile = $request->file('thumbnail');
+
+        if (!$uploadedFile->isValid()) {
+            return redirect()->back()->withErrors(['thumbnail' => 'File tidak valid'])->withInput();
         }
 
-        $data = [
-            'title' => $request->title,
-            'description' => $request->description,
-            'content' => $request->content,
-            'status' => $request->status,
-            'thumbnail' => isset($image_name) ? $image_name : $post->thumbnail,
-            'slug' => $this->generateSlug($request->title, $post->id)
-        ];
+        // Optional: Hapus thumbnail lama dari Cloudinary jika kamu menyimpan public_id-nya
+        // (Hanya bisa dilakukan jika kamu menyimpan informasi tersebut di DB)
 
-        Post::where('id', $post->id)->update($data);
-        return redirect()->route('member.blogs.index')->with('success', 'Data berhasil di-update');
+        $cloudinary = new Cloudinary([
+            'cloud' => [
+                'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
+                'api_key'    => env('CLOUDINARY_API_KEY'),
+                'api_secret' => env('CLOUDINARY_API_SECRET'),
+            ],
+        ]);
+
+        $uploadResult = $cloudinary->uploadApi()->upload(
+            $uploadedFile->getRealPath(),
+            ['folder' => 'thumbnails']
+        );
+
+        $thumbnailUrl = $uploadResult['secure_url'];
     }
+
+    $data = [
+        'title' => $request->title,
+        'description' => $request->description,
+        'content' => $request->content,
+        'status' => $request->status,
+        'thumbnail' => $thumbnailUrl,
+        'slug' => $this->generateSlug($request->title, $post->id)
+    ];
+
+    $post->update($data);
+
+    return redirect()->route('member.blogs.index')->with('success', 'Data berhasil di-update');
+}
 
     /**
      * Remove the specified resource from storage.
