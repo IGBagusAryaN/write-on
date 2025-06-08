@@ -67,7 +67,7 @@ $uploadResult = Cloudinary::uploadApi()->upload($uploadedFile->get(), [
     $thumbnailUrl = $uploadResult['secure_url']; // gunakan array access
 }
 
-dd(config('cloudinary'));
+logger(config('cloudinary'));
 
 
     $data = [
