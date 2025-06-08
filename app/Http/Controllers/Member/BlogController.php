@@ -45,13 +45,6 @@ class BlogController extends Controller
     {
         dd(config('cloudinary'));
 
-
-        logger('cloudinary_env', [
-            'cloud_name' => config('cloudinary.cloud.cloud_name'),
-            'api_key' => config('cloudinary.cloud.api_key'),
-            'api_secret' => config('cloudinary.cloud.api_secret'),
-        ]);
-
         $request->validate([
             'title' => 'required',
             'content' => 'required',
