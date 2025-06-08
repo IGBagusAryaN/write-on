@@ -61,13 +61,12 @@ class BlogController extends Controller
 
         if ($request->hasFile('thumbnail')) {
             $uploadedFile = $request->file('thumbnail');
-            $uploadResult = Cloudinary::uploadApi()->upload($uploadedFile->getRealPath(), [
+            $uploadResult = Cloudinary::upload($uploadedFile->getRealPath(), [
                 'folder' => 'thumbnails',
-                'filename' => $uploadedFile->getClientOriginalName(),
-                'resource_type' => 'image'
+                'resource_type' => 'image',
             ]);
 
-            $thumbnailUrl = $uploadResult['secure_url']; // gunakan array access
+            $thumbnailUrl = $uploadResult->getSecurePath();
         }
 
 
