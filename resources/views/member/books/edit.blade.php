@@ -36,18 +36,19 @@
                             </div>
                             <div>
                                 @isset($data->thumbnail)
-                                    <img src="{{ $data->thumbnail }}"
-                                        class="rounded-md border-gray-300 max-w-40 py-2">
+                                    <img src="{{ $data->thumbnail }}" class="rounded-md border-gray-300 max-w-40 py-2">
                                 @endisset
 
                                 <x-input-label for="file_input" value="Thumbnail" />
-                                <input type="file" class="w-full border border-gray-300 rounded-md"
-                                    name="thumbnail" />
+                                <input type="file"
+                                    class="w-full border border-gray-300 rounded-md outline-none file:cursor-pointer file:border-0 file:rounded-md file:bg-gray-100 file:px-4 file:py-2 file:text-sm file:text-gray-700" />
+
                                 @error('thumbnail')
                                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                                 @enderror
                             </div>
                             <div>
+                                <x-input-label for="content" value="Content" />
                                 <x-textarea-trix value="{!! old('content', $data->content) !!}" name="content"
                                     id="x"></x-textarea-trix>
                             </div>
