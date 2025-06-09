@@ -36,9 +36,12 @@
                                     class="inline-flex items-center border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
                                     <div>{{ Auth::user()->name }}</div>
                                     <div class="ms-1">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-3">
-  <path fill-rule="evenodd" d="M12.53 16.28a.75.75 0 0 1-1.06 0l-7.5-7.5a.75.75 0 0 1 1.06-1.06L12 14.69l6.97-6.97a.75.75 0 1 1 1.06 1.06l-7.5 7.5Z" clip-rule="evenodd" />
-</svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                            class="size-3">
+                                            <path fill-rule="evenodd"
+                                                d="M12.53 16.28a.75.75 0 0 1-1.06 0l-7.5-7.5a.75.75 0 0 1 1.06-1.06L12 14.69l6.97-6.97a.75.75 0 1 1 1.06 1.06l-7.5 7.5Z"
+                                                clip-rule="evenodd" />
+                                        </svg>
 
                                     </div>
                                 </button>
@@ -66,12 +69,16 @@
                     <div class="hidden sm:flex sm:items-center sm:ms-6 space-x-2">
                         <div class="flex items-center gap-1">
                             <span class="text-sm text-gray-500">Masuk untuk membuat cerita</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6 text-gray-500">
-  <path fill-rule="evenodd" d="M1.5 7.125c0-1.036.84-1.875 1.875-1.875h6c1.036 0 1.875.84 1.875 1.875v3.75c0 1.036-.84 1.875-1.875 1.875h-6A1.875 1.875 0 0 1 1.5 10.875v-3.75Zm12 1.5c0-1.036.84-1.875 1.875-1.875h5.25c1.035 0 1.875.84 1.875 1.875v8.25c0 1.035-.84 1.875-1.875 1.875h-5.25a1.875 1.875 0 0 1-1.875-1.875v-8.25ZM3 16.125c0-1.036.84-1.875 1.875-1.875h5.25c1.036 0 1.875.84 1.875 1.875v2.25c0 1.035-.84 1.875-1.875 1.875h-5.25A1.875 1.875 0 0 1 3 18.375v-2.25Z" clip-rule="evenodd" />
-</svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                class="size-6 text-gray-500">
+                                <path fill-rule="evenodd"
+                                    d="M1.5 7.125c0-1.036.84-1.875 1.875-1.875h6c1.036 0 1.875.84 1.875 1.875v3.75c0 1.036-.84 1.875-1.875 1.875h-6A1.875 1.875 0 0 1 1.5 10.875v-3.75Zm12 1.5c0-1.036.84-1.875 1.875-1.875h5.25c1.035 0 1.875.84 1.875 1.875v8.25c0 1.035-.84 1.875-1.875 1.875h-5.25a1.875 1.875 0 0 1-1.875-1.875v-8.25ZM3 16.125c0-1.036.84-1.875 1.875-1.875h5.25c1.036 0 1.875.84 1.875 1.875v2.25c0 1.035-.84 1.875-1.875 1.875h-5.25A1.875 1.875 0 0 1 3 18.375v-2.25Z"
+                                    clip-rule="evenodd" />
+                            </svg>
 
                         </div>
-                        <a href="{{ route('login') }}" class="text-sm text-[#E19B2C] font-semibold bg-[#E19B2C] bg-opacity-10 px-5 py-2">Masuk</a>
+                        <a href="{{ route('login') }}"
+                            class="text-sm text-[#E19B2C] font-semibold bg-[#E19B2C] bg-opacity-10 px-5 py-2">Masuk</a>
                         {{-- <a href="{{ route('register') }}"
                             class="text-sm text-gray-700 hover:text-gray-900 underline">Register</a> --}}
                     </div>
@@ -98,6 +105,9 @@
     <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
         @auth
             <div class="pt-2 pb-3 space-y-1">
+                <x-responsive-nav-link :href="route('baca')" :active="request()->routeIs('baca')">
+                    Baca
+                </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('member.books.index')" :active="request()->routeIs('member.books.*')">
                     Tulis Cerita
                 </x-responsive-nav-link>

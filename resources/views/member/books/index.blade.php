@@ -7,7 +7,7 @@
     </x-slot>
     <x-slot name="headerRight">
         <form action="{{ route('member.books.index') }}" method="get" class="flex items-center gap-1 mt-4 md:mt-0">
-            <x-text-input name="search" type="text" id="search" class="p-1 m-0 md:w-72 "
+            <x-text-input name="search" type="text" id="search" class="p-1 m-0 w-full md:w-72 "
                 value="{{ request('search') }}" placeholder="Masukkan kata kunci..."></x-text-input>
             <x-secondary-button class="p-1" type="submit">Cari</x-secondary-button>
         </form>

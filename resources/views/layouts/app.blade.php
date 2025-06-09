@@ -62,8 +62,8 @@
             <header class="bg-white ">
                 <div class="max-w-5xl mx-auto py-6  sm:px-6 mt-5 lg:px-8">
                     <div class="block md:flex justify-between items-center">
-                        <div> {{ $header }}</div>
-                        <div>
+                        <div class="px-2"> {{ $header }}</div>
+                        <div class="px-2 w-full">
                             @isset($headerRight)
                                 {{ $headerRight }}
                             @endisset
