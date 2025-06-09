@@ -41,7 +41,7 @@
 
                                 <x-input-label for="file_input" value="Thumbnail" />
                                 <input type="file"
-                                    class="w-full border border-gray-300 rounded-md outline-none file:cursor-pointer file:border-0 file:rounded-md file:bg-gray-100 file:px-4 file:py-2 file:text-sm file:text-gray-700" />
+                                    class="w-full border border-gray-300 rounded-md outline-none file:cursor-pointer file:border-0 file:rounded-md file:bg-gray-100 file:px-4 file:py-2 file:text-sm file:text-gray-700" name="thumbnail" />
 
                                 @error('thumbnail')
                                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
