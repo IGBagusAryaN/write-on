@@ -39,7 +39,7 @@
             <a href="{{ route('register') }}" class="text-sm text-gray-700 hover:text-[#E19B2C]">Belum mempunyai akun?</a>
 
             <x-primary-button class="ms-3">
-                {{ __('Log in') }}
+                {{ __('Masuk') }}
             </x-primary-button>
         </div>
     </form>

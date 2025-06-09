@@ -10,7 +10,7 @@ class HomePageController extends Controller
 {
     public function index()
     {
-        $data = Post::where('status', 'publish')->orderBy('id', 'desc')->paginate(6);
+        $data = Post::where('status', 'publish')->orderBy('id', 'desc')->paginate(9);
         return view('components.front.home-page', compact('data'));
     }
 }
