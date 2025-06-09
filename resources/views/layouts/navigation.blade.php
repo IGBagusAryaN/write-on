@@ -5,7 +5,7 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('member.blogs.index') }}">
+                    <a href="{{ route('member.books.index') }}">
                         <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
                     </a>
                 </div>
@@ -16,7 +16,7 @@
                     {{-- <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link> --}}
-                    <x-nav-link :href="route('member.blogs.index')" :active="request()->routeIs('member.blogs.*')">
+                    <x-nav-link :href="route('member.books.index')" :active="request()->routeIs('member.books.*')">
                         Tulis cerita
                     </x-nav-link>
                 </div>
@@ -74,8 +74,8 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
-                <x-responsive-nav-link :href="route('member.blogs.index')" :active="request()->routeIs('member.blogs.*')">
-                        Blogs
+                <x-responsive-nav-link :href="route('member.books.index')" :active="request()->routeIs('member.books.*')">
+                        books
                     </x-responsive-nav-link>
         </div>
 

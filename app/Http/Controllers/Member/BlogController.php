@@ -27,7 +27,7 @@ class BlogController extends Controller
             }
         })->orderBy('id', 'desc')->paginate(5)->withQueryString();
 
-        return view('member.blogs.index', compact('data'));
+        return view('member.books.index', compact('data'));
     }
 
     /**
@@ -35,7 +35,7 @@ class BlogController extends Controller
      */
     public function create()
     {
-        return view('member.blogs.create');
+        return view('member.books.create');
     }
 
     /**
@@ -48,10 +48,11 @@ class BlogController extends Controller
     $request->validate([
         'title' => 'required',
         'content' => 'required',
-        'thumbnail' => 'image|mimes:jpeg,jpg,png|max:10240'
+        'thumbnail' => 'required|image|mimes:jpeg,jpg,png|max:10240'
     ], [
         'title.required' => 'Judul wajib diisi',
         'content.required' => 'Konten wajib diisi',
+        'thumbnail.required' => 'Gambar wajib diisi',
         'thumbnail.image' => 'Hanya gambar yang diperbolehkan',
         'thumbnail.mimes' => 'Ekstensi yang diperbolehkan hanya JPEG, JPG, dan PNG',
         'thumbnail.max' => 'Ukuran maksimum untuk thumbnail adalah 10mb',
@@ -94,7 +95,7 @@ class BlogController extends Controller
 
     Post::create($data);
 
-    return redirect()->route('member.blogs.index')->with('success', 'Data berhasil ditambahkan');
+    return redirect()->route('member.books.index')->with('success', 'Data berhasil ditambahkan');
 }
 
     /**
@@ -113,7 +114,7 @@ class BlogController extends Controller
         Gate::authorize('edit', $post);
         $data = $post;
         // dd($data);
-        return view('member.blogs.edit', compact('data'));
+        return view('member.books.edit', compact('data'));
     }
 
     /**
@@ -172,7 +173,7 @@ class BlogController extends Controller
 
     $post->update($data);
 
-    return redirect()->route('member.blogs.index')->with('success', 'Data berhasil di-update');
+    return redirect()->route('member.books.index')->with('success', 'Data berhasil di-update');
 }
 
     /**
@@ -187,7 +188,7 @@ class BlogController extends Controller
         }
 
         Post::where('id', $post->id)->delete();
-        return redirect()->route('member.blogs.index')->with('success', 'Data berhasil dihapus');
+        return redirect()->route('member.books.index')->with('success', 'Data berhasil dihapus');
     }
 
 

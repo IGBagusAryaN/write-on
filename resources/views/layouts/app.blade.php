@@ -22,7 +22,7 @@
 
 <body class="font-sans antialiased">
     <div class="min-h-screen">
-        @include('layouts.navigation')
+    @include('layouts.navigation-front')
               {{-- @session('success') --}}
                 {{-- <div class="max-w-4xl mx-auto mb-4 rounded-lg shadow-md overflow-hidden">
                     <!-- Bar hijau tebal -->
@@ -60,7 +60,7 @@
         <!-- Page Heading -->
         @isset($header)
             <header class="bg-white ">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 mt-5 lg:px-12">
+                <div class="max-w-5xl mx-auto py-6  sm:px-6 mt-5 lg:px-8">
                     <div class="block md:flex justify-between items-center">
                         <div> {{ $header }}</div>
                         <div>

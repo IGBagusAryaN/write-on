@@ -1,7 +1,7 @@
   
   <x-front.layout-page>
   <div class="max-w-5xl mx-auto mt-10 px-4 sm:px-6 lg:px-8">
-        <div class="text-[24px]">Cerita Pendek </div>
+        <div class="text-[24px] font-semibold">Cerita Pendek </div>
         <div class="grid  md:grid-cols-3  gap-2 mt-3">
             {{-- <div class="border flex p-2 gap-2 h-full">
                 <img src="https://inc.mizanstore.com/aassets/img/com_cart/produk/covGA001942_thumb.jpg" alt="" width="120" height="120">
