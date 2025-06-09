@@ -8,7 +8,7 @@
             <div>
                 <div class="text-[12px]">{{ $author }}</div>
                 <div class="font-semibold text-[16px] truncate max-w-[160px]">{{ $title }}</div>
-                <p class="text-[12px] text-gray-500 line-clamp-7">{{ $desc }}</p>
+                <p class="text-[12px] text-gray-500 line-clamp-6 max-w-[160px]">{{ $desc }}</p>
             </div>
             <div class="flex items-end justify-end">
                 <a href="{{ $link}}" class="text-[14px] text-blue-400">Baca &raquo;</a>
