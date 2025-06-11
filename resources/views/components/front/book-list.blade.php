@@ -6,7 +6,7 @@
             width="120" height="120">
         <div class="flex flex-col justify-between w-full">
             <div>
-                <div class="text-[12px]">By: {{. . $author }}</div>
+                <div class="text-[12px]">By: {{ $author }}</div>
                 <div class="font-semibold text-[16px] truncate max-w-[160px]">{{ $title }}</div>
                 <p class="text-[12px] text-gray-500 line-clamp-6 max-w-[160px]">{{ $desc }}</p>
             </div>
