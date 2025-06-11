@@ -7,6 +7,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomePageController::class, 'index'])->name('baca');
+Route::get('/category/{slug}', [HomePageController::class, 'byCategory'])->name('baca-category');
 
 
 Route::get('/detail-book', function () {

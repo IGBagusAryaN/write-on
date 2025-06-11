@@ -1,54 +1,51 @@
-  
   <x-front.layout-page>
-  <div class="max-w-5xl mx-auto mt-10 px-4 sm:px-6 lg:px-8">
-        <div class="text-[24px] font-semibold">Cerita Pendek </div>
-        <div class="grid  md:grid-cols-3  gap-2 mt-3">
-            {{-- <div class="border flex p-2 gap-2 h-full">
-                <img src="https://inc.mizanstore.com/aassets/img/com_cart/produk/covGA001942_thumb.jpg" alt="" width="120" height="120">
-                <div class="flex flex-col justify-between">
-                    <div>
-                        <div class="text-[12px]">Raditya dika</div>
-                        <div class="font-semibold text-[16px]">Koala Kumala</div>
-                        <p class="text-[12px] text-gray-500">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Temporibus fugit esse consectetur illo neque amet!</p>
-                    </div>
-                    <div class="flex items-end justify-end">
-                          <a href="{{ url('/detail-book') }}" class="text-[14px] text-blue-400">Baca &raquo;</a>
-                    </div>
-                </div>
-              
-            </div>
-            <div class="border flex p-2 gap-2 h-full">
-                <img src="https://cdn.gramedia.com/uploads/items/9786022202325C_9786022202325.jpg" alt="" width="120" height="120">
-                <div class="flex flex-col justify-between">
-                    <div>
-                        <div class="text-[12px]">Raditya dika</div>
-                        <div class="font-semibold text-[16px]">Marmut Merah Jambu</div>
-                        <p class="text-[12px] text-gray-500">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Temporibus fugit esse consectetur illo neque amet!</p>
-                    </div>
-                    <div class="flex items-end justify-end">
-                          <a href="" class="text-[14px] text-blue-400">Baca &raquo;</a>
-                    </div>
-                </div>
-              
-            </div>
-            <div class="border flex p-2 gap-2 h-full">
-                <img src="https://upload.wikimedia.org/wikipedia/id/8/8f/Ubur-ubur-Lembur1.jpg" alt="" width="120" height="120">
-                <div class="flex flex-col justify-between">
-                    <div>
-                        <div class="text-[12px]">Raditya dika</div>
-                        <div class="font-semibold text-[16px]">Ubur-ubur Lembur</div>
-                        <p class="text-[12px] text-gray-500">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Temporibus fugit esse consectetur illo neque amet!</p>
-                    </div>
-                    <div class="flex items-end justify-end">
-                          <a href="" class="text-[14px] text-blue-400">Baca &raquo;</a>
-                    </div>
-                </div>
-              
-            </div> --}}
-            @foreach ($data as $key=>$value)
-            <x-front.book-list title="{{ $value->title }}" desc="{{ $value->description }}" author="{{ $value->user->name }}" link="{{ route('book-detail', ['slug'=> $value->slug]) }} " thumbnails="{{ $value->thumbnail }}"></x-front.book-list>
-            @endforeach
-        </div>
-    </div>
+      <div class="max-w-5xl mx-auto mt-10 px-4 sm:px-6 lg:px-8">
+          <div class="block md:flex justify-between">
+              <div class="text-[24px] font-semibold">Cerita Pendek </div>
+              <form action="{{isset($category) ? route('baca-category', $category->slug) : route('baca')}}" method="get" class="flex items-center gap-1 mt-4 md:mt-0">
+                  <x-text-input name="search" type="text" id="search" class="p-1 m-0 w-full md:w-72 "
+                      value="{{ request('search') }}" placeholder="Masukkan kata kunci..."
+                      autocomplete="none"></x-text-input>
+                  <x-secondary-button class="p-1" type="submit">Cari</x-secondary-button>
+              </form>
+          </div>
+          <div class="overflow-x-auto">
+              <div class="flex gap-2 my-4 min-w-max ">
+                  <a href="{{ route('baca') }}"
+                      class="whitespace-nowrap pr-2 py-1 rounded-md text-sm
+                  {{ !isset($category) ? 'font-bold text-[#E19B2C]' : 'text-gray-700 hover:text-[#E19B2C]' }}">
+                      Semua
+                  </a>
 
-    </x-front.layout-page>
+                  @foreach ($categories as $cat)
+                      <a href="{{ route('baca-category', $cat->slug) }}"
+                          class="whitespace-nowrap px-2 py-1 rounded-md text-sm
+                      {{ isset($category) && $category->id === $cat->id
+                          ? 'font-bold text-[#E19B2C]'
+                          : 'text-gray-700 hover:text-[#E19B2C]' }}">
+                          {{ $cat->name }}
+                      </a>
+                  @endforeach
+              </div>
+          </div>
+
+          @if ($data->count())
+              <div class="grid  md:grid-cols-3  gap-2 mt-3">
+                  @foreach ($data as $key => $value)
+                      <x-front.book-list title="{{ $value->title }}" desc="{{ $value->description }}"
+                          author="{{ $value->user->name }}"
+                          link="{{ route('book-detail', ['slug' => $value->slug]) }} "
+                          thumbnails="{{ $value->thumbnail }}"></x-front.book-list>
+                  @endforeach
+              </div>
+              <div class="mt-4">
+                  {{ $data->links() }}
+              </div>
+          @else
+              <div class="text-center text-gray-600 py-10">
+                  Tidak ada buku dikategori ini
+              </div>
+          @endif
+      </div>
+
+  </x-front.layout-page>

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('content')->nullable();
             $table->enum('status', ['draft', 'publish'])->default('draft');
             $table->text('thumbnail')->nullable();
+            $table->foreignId('category_id')->nullable()->constrained()->onDelete('set null');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             
@@ -32,5 +33,10 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('posts');
+
+        Schema::table('posts', function (Blueprint $table) {
+            $table->dropForeign(['category_id']);
+            $table->dropColumn('category_id');
+        });
     }
 };

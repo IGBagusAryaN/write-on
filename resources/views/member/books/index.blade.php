@@ -22,7 +22,8 @@
                             <tr class="text-center font-bold">
                                 <td class="border px-6 py-4 w-[80px]">No</td>
                                 <td class="border px-6 py-4">Judul</td>
-                                <td class="border px-6 py-4 lg:w-[250px] hidden lg:table-cell">Tanggal</td>
+                                <td class="border px-6 py-4">Category</td>
+                                <td class="border px-6 py-4 lg:w-[200px] hidden lg:table-cell">Tanggal</td>
                                 <td class="border px-6 py-4 lg:w-[100px] hidden lg:table-cell">Status</td>
                                 <td class="border px-6 py-4 lg:w-[250px] w-[100px]">Aksi</td>
                             </tr>
@@ -37,6 +38,7 @@
                                             {{ $value->status }} | {{ $value->created_at->isoFormat('dddd, D MMMM Y') }}
                                         </div>
                                     </td>
+                                    <td class="border px-6 py-4 text-center">{{ $value->category->name }}</td>
                                     <td class="border px-6 py-4 text-center text-gray-500 text-sm hidden lg:table-cell">
                                         {{ $value->created_at->isoFormat('dddd, D MMMM Y') }}</td>
                                     <td class="border px-6 py-4 text-center text-sm hidden lg:table-cell">
