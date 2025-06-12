@@ -20,7 +20,7 @@ class BlogController extends Controller
     public function index(Request $request)
     {
         $user = Auth::user();
-        
+        $categories = Category::all();
         $search = $request->search;
         $data = Post::where('user_id', $user->id)->where(function ($query) use ($search) {
             if ($search) {
@@ -123,9 +123,10 @@ class BlogController extends Controller
     public function edit(Post $post)
     {
         Gate::authorize('edit', $post);
+        $categories = Category::all();
         $data = $post;
         // dd($data);
-        return view('member.books.edit', compact('data'));
+        return view('member.books.edit', compact('data', 'categories'));
     }
 
     /**
@@ -179,6 +180,7 @@ class BlogController extends Controller
             'content' => $request->content,
             'status' => $request->status,
             'thumbnail' => $thumbnailUrl,
+            'category_id' => $request->category_id,
             'slug' => $this->generateSlug($request->title, $post->id)
         ];
 

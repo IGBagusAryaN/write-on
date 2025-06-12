@@ -49,6 +49,20 @@
                                 <x-textarea-trix value="{!! old('content') !!}" name="content"
                                     id="x"></x-textarea-trix>
                             </div>
+
+                            <div class="mb-4">
+                                <label for="category_id"
+                                    class="block font-medium text-sm text-gray-700">Kategori</label>
+                                <select name="category_id" id="category_id" class="form-select mt-1 block w-full rounded-md border-gray-300">
+                                    <option value="">-- Pilih Kategori --</option>
+                                    @foreach ($categories as $category)
+                                        <option value="{{ $category->id }}"
+                                            {{ (old('category_id') ?? ($data->category_id ?? '')) == $category->id ? 'selected' : '' }}>
+                                            {{ $category->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
                             <div>
                                 <x-select name="status">
                                     <option value="draft" {{ old('status') == 'draft' ? 'selected' : '' }}>Simpan
@@ -57,20 +71,6 @@
                                     <option value="publish" {{ old('status') == 'publish' ? 'selected' : '' }}>Publish
                                     </option>
                                 </x-select>
-                            </div>
-
-                            <div class="mb-4">
-                                <label for="category_id"
-                                    class="block font-medium text-sm text-gray-700">Kategori</label>
-                                <select name="category_id" id="category_id" class="form-select mt-1 block w-full">
-                                    <option value="">-- Pilih Kategori --</option>
-                                    @foreach ($categories as $category)
-                                        <option value="{{ $category->id }}"
-                                            {{ (old('category_id') ?? ($post->category_id ?? '')) == $category->id ? 'selected' : '' }}>
-                                            {{ $category->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
                             </div>
                             <div class="flex items-center gap-4">
                                 <a href="{{ route('member.books.index') }}">

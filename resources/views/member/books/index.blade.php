@@ -22,7 +22,7 @@
                             <tr class="text-center font-bold">
                                 <td class="border px-6 py-4 w-[80px]">No</td>
                                 <td class="border px-6 py-4">Judul</td>
-                                <td class="border px-6 py-4">Category</td>
+                                <td class="border px-6 py-4">Kategori</td>
                                 <td class="border px-6 py-4 lg:w-[200px] hidden lg:table-cell">Tanggal</td>
                                 <td class="border px-6 py-4 lg:w-[100px] hidden lg:table-cell">Status</td>
                                 <td class="border px-6 py-4 lg:w-[250px] w-[100px]">Aksi</td>

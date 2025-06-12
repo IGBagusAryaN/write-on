@@ -41,7 +41,8 @@
 
                                 <x-input-label for="file_input" value="Thumbnail" />
                                 <input type="file"
-                                    class="w-full border border-gray-300 rounded-md outline-none file:cursor-pointer file:border-0 file:rounded-md file:bg-gray-100 file:px-4 file:py-2 file:text-sm file:text-gray-700" name="thumbnail" />
+                                    class="w-full border border-gray-300 rounded-md outline-none file:cursor-pointer file:border-0 file:rounded-md file:bg-gray-100 file:px-4 file:py-2 file:text-sm file:text-gray-700"
+                                    name="thumbnail" />
 
                                 @error('thumbnail')
                                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -51,6 +52,19 @@
                                 <x-input-label for="content" value="Content" />
                                 <x-textarea-trix value="{!! old('content', $data->content) !!}" name="content"
                                     id="x"></x-textarea-trix>
+                            </div>
+                            <div class="mb-4">
+                                <label for="category_id"
+                                    class="block font-medium text-sm text-gray-700">Kategori</label>
+                                <select name="category_id" id="category_id" class="form-select mt-1 block w-full rounded-md border-gray-300">
+                                    <option value="">-- Pilih Kategori --</option>
+                                    @foreach ($categories as $category)
+                                        <option value="{{ $category->id }}"
+                                            {{ (old('category_id') ?? ($data->category_id ?? '')) == $category->id ? 'selected' : '' }}>
+                                            {{ $category->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
                             </div>
                             <div>
                                 <x-select name="status">
