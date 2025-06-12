@@ -43,7 +43,7 @@
               </div>
           @else
               <div class="flex justify-center items-center w-full h-[400px] text-gray-600 py-10">
-                  Tidak ada buku dikategori ini
+                  Tidak ada cerita dikategori ini
               </div>
           @endif
       </div>
