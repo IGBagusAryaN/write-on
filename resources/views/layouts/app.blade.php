@@ -13,6 +13,7 @@
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
     <!-- Scripts -->
+    @livewireStyles
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
     <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
@@ -22,9 +23,9 @@
 
 <body class="font-sans antialiased">
     <div class="min-h-screen">
-    @include('layouts.navigation-front')
-              {{-- @session('success') --}}
-                {{-- <div class="max-w-4xl mx-auto mb-4 rounded-lg shadow-md overflow-hidden">
+        @include('layouts.navigation-front')
+        {{-- @session('success') --}}
+        {{-- <div class="max-w-4xl mx-auto mb-4 rounded-lg shadow-md overflow-hidden">
                     <!-- Bar hijau tebal -->
                     <div class="h-1 bg-green-600"></div>
 
@@ -55,7 +56,7 @@
                         </button>
                     </div>
                 </div> --}}
-                {{-- @endsession --}}
+        {{-- @endsession --}}
 
         <!-- Page Heading -->
         @isset($header)
@@ -71,7 +72,7 @@
                     </div>
                 </div>
 
-          
+
             </header>
         @endisset
 
@@ -80,6 +81,8 @@
             {{ $slot }}
         </main>
     </div>
+
+    @livewireScripts
 </body>
 
 </html>

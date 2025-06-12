@@ -34,6 +34,6 @@
                     </div>
                 </div>
             </div>
-        
-    </div>
+            @livewire('comment-section', ['post' => $data])
+        </div>
   </x-front.layout-page>
