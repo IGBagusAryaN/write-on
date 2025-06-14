@@ -19,6 +19,7 @@
     <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 </head>
@@ -27,7 +28,7 @@
     @include('layouts.navigation-front')
 
     {{ $slot }}
-
     
     @livewireScripts
+    @include('sweetalert2::index')
 </body>

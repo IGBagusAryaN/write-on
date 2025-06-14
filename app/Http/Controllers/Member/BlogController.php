@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use SweetAlert2\Laravel\Swal;
 
 class BlogController extends Controller
 {
@@ -106,6 +107,13 @@ class BlogController extends Controller
 
         Post::create($data);
 
+     Swal::fire([
+            'title' => 'Data berhasil ditambahkan',
+            'icon' => 'success',
+            'confirmButtonText' => 'OK',
+            'confirmButtonColor' => '#E19B2C',
+        ]);
+
         return redirect()->route('member.books.index')->with('success', 'Data berhasil ditambahkan');
     }
 
@@ -185,7 +193,12 @@ class BlogController extends Controller
         ];
 
         $post->update($data);
-
+     Swal::fire([
+            'title' => 'Data berhasil di-update',
+            'icon' => 'success',
+            'confirmButtonText' => 'OK',
+            'confirmButtonColor' => '#E19B2C',
+        ]);
         return redirect()->route('member.books.index')->with('success', 'Data berhasil di-update');
     }
 
@@ -201,6 +214,15 @@ class BlogController extends Controller
         }
 
         Post::where('id', $post->id)->delete();
+
+     
+        Swal::fire([
+            'title' => 'Data berhasil dihapus',
+            'icon' => 'success',
+            'confirmButtonText' => 'OK',
+            'confirmButtonColor' => '#E19B2C',
+        ]);
+
         return redirect()->route('member.books.index')->with('success', 'Data berhasil dihapus');
     }
 

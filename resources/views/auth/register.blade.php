@@ -21,7 +21,7 @@
         <!-- Password -->
         <div class="mt-4">
             <x-input-label for="password" :value="__('Password')" />
-                <x-password-input id="password" name="password" label="Password" />
+            <x-password-input id="password" name="password" label="Password" />
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
@@ -29,13 +29,12 @@
         <div class="mt-4">
             <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
 
-<x-password-input id="password_confirmation" name="password_confirmation" label="Confirm Password" />
+            <x-password-input id="password_confirmation" name="password_confirmation" label="Confirm Password" />
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
 
         <div class="md:flex md:items-center md:justify-end mt-4">
-            <a class=" text-sm text-gray-600 hover:text-[#E19B2C] rounded-md "
-                href="{{ route('login') }}">
+            <a class=" text-sm text-gray-600 hover:text-[#E19B2C] rounded-md " href="{{ route('login') }}">
                 {{ __('Sudah mempunyai akun?') }}
             </a>
 
@@ -44,4 +43,13 @@
             </x-primary-button>
         </div>
     </form>
+
+    @if (Session::has('message'))
+        <script>
+            swal("Message", "{{ Session::get('message') }}", 'success', {
+                button:true,
+                button:"OK"
+            })
+        </script>
+    @endif
 </x-guest-layout>

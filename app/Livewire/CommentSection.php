@@ -7,6 +7,7 @@ use App\Models\CommentLike;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use SweetAlert2\Laravel\Swal;
 
 class CommentSection extends Component
 {
@@ -20,10 +21,10 @@ class CommentSection extends Component
     ];
 
     protected $messages = [
-    'body.required' => 'Komentar tidak boleh kosong.',
-    'body.min' => 'Komentar terlalu pendek, minimal :min karakter.',
-    'body.max' => 'Komentar terlalu panjang, maksimal :max karakter.',
-];
+        'body.required' => 'Komentar tidak boleh kosong.',
+        'body.min' => 'Komentar terlalu pendek, minimal :min karakter.',
+        'body.max' => 'Komentar terlalu panjang, maksimal :max karakter.',
+    ];
 
 
     public function mount(Post $post)
@@ -60,9 +61,12 @@ class CommentSection extends Component
         $this->editingId = null;
         $this->editBody = '';
     }
-    
+
     public function delete($id)
     {
+        Swal::warning([
+            'title' => 'Popup with a warning icon',
+        ]);
         Comment::findOrFail($id)->delete();
     }
 
@@ -88,6 +92,6 @@ class CommentSection extends Component
     public function render()
     {
 
-        return view('livewire.comment-section', ['comments' => Comment::with('likes', 'user')->where('post_id', $this->post->id)->latest()->get()]);
+        return view('livewire.comment-section', ['comments' => Comment::with('likes', 'user')->where('post_id', $this->post->id)->latest()->get(), 'post' => $this->post]);
     }
 }
